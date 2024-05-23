@@ -1,40 +1,40 @@
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
 
 let statusBarItem: vscode.StatusBarItem | undefined;
 
 export function activate(context: vscode.ExtensionContext) {
-	statusBarItem = vscode.window.createStatusBarItem(
-		vscode.StatusBarAlignment.Right,
-		Number.MIN_SAFE_INTEGER
-	);
+  statusBarItem = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Right,
+    Number.MIN_SAFE_INTEGER
+  );
 
-	statusBarItem.text = "${paintcan} NaN";
-	statusBarItem.tooltip = "Click to change theme";
-	statusBarItem.command = "workbench.action.selectTheme";
+  statusBarItem.text = "${paintcan} NaN";
+  statusBarItem.tooltip = "Click to change theme";
+  statusBarItem.command = "workbench.action.selectTheme";
 
-	context.subscriptions.push(statusBarItem);
-	statusBarItem.show();
+  context.subscriptions.push(statusBarItem);
+  statusBarItem.show();
 
-	updateStatusBar();
+  updateStatusBar();
 
-	vscode.workspace.onDidChangeConfiguration(() => {
-		updateStatusBar();
-	})
-
+  vscode.workspace.onDidChangeConfiguration(() => {
+    updateStatusBar();
+  });
 }
 
-
 function updateStatusBar() {
-	if (!statusBarItem) return false;
-	statusBarItem.text = "$(paintcan) " + getCurrentTheme();
+  if (!statusBarItem) return false;
+  statusBarItem.text = "$(paintcan) " + getCurrentTheme();
 }
 
 function getCurrentTheme(): string {
-	return vscode.workspace.getConfiguration('workbench').get('colorTheme', 'Unknown');
+  return vscode.workspace
+    .getConfiguration("workbench")
+    .get("colorTheme", "Unknown");
 }
 
 export function deactivate() {
-	if (statusBarItem) {
-		statusBarItem.dispose();
-	}
+  if (statusBarItem) {
+    statusBarItem.dispose();
+  }
 }

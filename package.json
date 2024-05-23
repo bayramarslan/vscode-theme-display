@@ -1,6 +1,6 @@
 {
-  "name": "theme-status",
-  "displayName": "Theme Status",
+  "name": "theme-display",
+  "displayName": "Theme Display",
   "description": "Displays the current theme name in the status bar",
   "icon": "images/icon.png",
   "publisher": "bayramarslan",
@@ -16,6 +16,7 @@
     "statusbar",
     "color-scheme",
     "theme-name",
+    "theme-display",
     "config",
     "shortcut"
   ],
@@ -44,11 +45,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bayramarslan/vscode-theme-status.git"
+    "url": "https://github.com/bayramarslan/vscode-theme-display.git"
   },
   "bugs": {
-    "url": "https://github.com/bayramarslan/vscode-theme-status/issues"
+    "url": "https://github.com/bayramarslan/vscode-theme-display/issues"
   },
-  "homepage": "https://github.com/bayramarslan/vscode-theme-status",
+  "homepage": "https://github.com/bayramarslan/vscode-theme-display",
   "license": "MIT"
 }
