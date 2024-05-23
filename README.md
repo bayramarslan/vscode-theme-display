@@ -1,6 +1,9 @@
-# VSCode Theme Display and Selector
+# <div style="display: flex; gap: 10px; align-items: center;"><img src="images/icon.png" style="width: 36px;" /> VSCode Theme Display and Selector</div> 
 
 VSCode Theme Display and Selector is a Visual Studio Code extension that displays the name of the active theme in the status bar and opens a theme selection list when clicked. With this extension, you can easily see the name of the active theme and quickly switch between themes.
+
+
+![screenshot](images/screenshot-1.png)
 
 ## Features
 
