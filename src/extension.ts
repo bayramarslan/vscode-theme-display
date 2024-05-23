@@ -1,14 +1,40 @@
 import * as vscode from 'vscode';
 
+let statusBarItem: vscode.StatusBarItem | undefined;
+
 export function activate(context: vscode.ExtensionContext) {
+	statusBarItem = vscode.window.createStatusBarItem(
+		vscode.StatusBarAlignment.Right,
+		Number.MIN_SAFE_INTEGER
+	);
 
-	console.log('Congratulations, your extension "theme-status" is now active!');
+	statusBarItem.text = "${paintcan} NaN";
+	statusBarItem.tooltip = "Click to change theme";
+	statusBarItem.command = "workbench.action.selectTheme";
 
-	let disposable = vscode.commands.registerCommand('theme-status.helloWorld', () => {
-		vscode.window.showInformationMessage('Hello World from theme-status!');
-	});
+	context.subscriptions.push(statusBarItem);
+	statusBarItem.show();
 
-	context.subscriptions.push(disposable);
+	updateStatusBar();
+
+	vscode.workspace.onDidChangeConfiguration(() => {
+		updateStatusBar();
+	})
+
 }
 
-export function deactivate() {}
+
+function updateStatusBar() {
+	if (!statusBarItem) return false;
+	statusBarItem.text = "$(paintcan) " + getCurrentTheme();
+}
+
+function getCurrentTheme(): string {
+	return vscode.workspace.getConfiguration('workbench').get('colorTheme', 'Unknown');
+}
+
+export function deactivate() {
+	if (statusBarItem) {
+		statusBarItem.dispose();
+	}
+}

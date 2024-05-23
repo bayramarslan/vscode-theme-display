@@ -1,24 +1,28 @@
 {
   "name": "theme-status",
-  "displayName": "theme-status",
+  "displayName": "Theme Status",
   "description": "Displays the current theme name in the status bar",
+  "icon": "images/icon.png",
+  "publisher": "bayramarslan",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.89.0"
   },
   "categories": [
-    "Other"
+    "Themes"
   ],
-  "activationEvents": [],
+  "keywords": [
+    "theme",
+    "statusbar",
+    "color-scheme",
+    "theme-name",
+    "config",
+    "shortcut"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "theme-status.helloWorld",
-        "title": "Hello World"
-      }
-    ]
-  },
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
@@ -37,5 +41,14 @@
     "typescript": "^5.4.5",
     "@vscode/test-cli": "^0.0.9",
     "@vscode/test-electron": "^2.3.9"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bayramarslan/vscode-theme-status.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bayramarslan/vscode-theme-status/issues"
+  },
+  "homepage": "https://github.com/bayramarslan/vscode-theme-status",
+  "license": "MIT"
 }

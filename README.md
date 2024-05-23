@@ -1,71 +1,35 @@
-# theme-status README
+# VSCode Theme Display and Selector
 
-This is the README for your extension "theme-status". After writing up a brief description, we recommend including the following sections.
+VSCode Theme Display and Selector is a Visual Studio Code extension that displays the name of the active theme in the status bar and opens a theme selection list when clicked. With this extension, you can easily see the name of the active theme and quickly switch between themes.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- Displays the name of the current theme in the status bar.
+- Opens a theme selection list when the theme name is clicked.
+- User-friendly and easy to use.
 
-For example if there is an image subfolder under your extension project workspace:
+## Installation
 
-\!\[feature X\]\(images/feature-x.png\)
+1. **From the VSCode Marketplace**:
+   - Go to the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/).
+   - Search for "VSCode Theme Display and Selector" extension and click on the "Install" button.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+2. **Manual Installation**:
+   - Download the latest release from the [Releases](https://github.com/bayramarslan/vscode-theme-status/releases) page.
+   - Install the downloaded `.vsix` file by opening VSCode, navigating to the Extensions view, clicking on the ellipsis (...) icon, and selecting "Install from VSIX".
 
-## Requirements
+## Usage
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+Once installed, the name of the active theme will be displayed in the status bar. Clicking on the theme name will open a dropdown menu with a list of available themes. Selecting a theme from the list will immediately apply the chosen theme.
 
-## Extension Settings
+## Contributing
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+Contributions are welcome! Please fork the repository and submit a pull request with your improvements.
 
-For example:
+## License
 
-This extension contributes the following settings:
+This project is licensed under the [MIT License](LICENSE).
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+## Acknowledgements
 
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+- Special thanks to [VSCode](https://code.visualstudio.com/) for providing a powerful extension development platform.
