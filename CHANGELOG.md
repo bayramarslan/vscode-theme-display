@@ -9,7 +9,7 @@ All notable changes to the "theme-status" extension will be documented in this f
 - Initial release
 
 
-#### [v0.0.2](https://github.com/bayramarslan/vscode-theme-display/compare/0.0.1...0.0.2)
+#### [v0.0.2](https://github.com/bayramarslan/vscode-theme-display/compare/0.0.1...0.0.3)
 
 > July 3, 2024
 
