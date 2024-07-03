@@ -4,12 +4,12 @@
   "description": "Displays the current theme name in the status bar",
   "icon": "images/icon.png",
   "publisher": "bayramarslan",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.89.0"
   },
   "categories": [
-    "Themes"
+    "Visualization"
   ],
   "keywords": [
     "theme",
@@ -30,7 +30,10 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "package": "vsce package",
+    "install": "powershell -ExecutionPolicy Bypass -File ./install.ps1",
+    "vip": "npm run package && npm run install"
   },
   "devDependencies": {
     "@types/vscode": "^1.89.0",
