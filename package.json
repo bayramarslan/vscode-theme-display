@@ -4,26 +4,45 @@
   "description": "Displays the current theme name in the status bar",
   "icon": "images/icon.png",
   "publisher": "bayramarslan",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "vscode": "^1.89.0"
   },
   "categories": [
-    "Visualization"
+    "Other"
   ],
   "keywords": [
-    "theme",
-    "statusbar",
+    "color",
+    "color-theme",
     "color-scheme",
+    "random",
+    "random-theme",
+    "shortcut",
+    "statusbar",
+    "theme",
     "theme-name",
     "theme-display",
-    "config",
-    "shortcut"
+    "theme-selector",
+    "theme-statusbar"
   ],
   "activationEvents": [
     "onStartupFinished"
   ],
   "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.randomTheme",
+        "title": "Random Color Theme"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "extension.randomTheme",
+        "key": "ctrl+k n"
+      }
+    ]
+  },
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",

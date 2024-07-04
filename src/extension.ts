@@ -13,30 +13,24 @@ export function activate(context: vscode.ExtensionContext) {
   const tooltip = new vscode.MarkdownString(
     `Click to change theme [I'm Feeling Lucky](command:extension.randomTheme)`
   );
+  
   tooltip.isTrusted = true;
 
+  currentTheme = getCurrentTheme();
+  statusBarItem.text = `${statusBarIcon} ${currentTheme}`;
   statusBarItem.tooltip = tooltip;
   statusBarItem.command = "workbench.action.selectTheme";
 
-  const disposable = vscode.commands.registerCommand(
+  const randomThemeLink = vscode.commands.registerCommand(
     "extension.randomTheme",
     randomTheme
   );
 
-  context.subscriptions.push(disposable, statusBarItem);
+  context.subscriptions.push(randomThemeLink, statusBarItem);
 
   statusBarItem.show();
 
-  vscode.workspace.onDidChangeConfiguration(updateStatusBar);
-}
-
-function updateStatusBar() {
-  if (!statusBarItem) {
-    return;
-  }
-
-  currentTheme = getCurrentTheme();
-  updateStatusBarText();
+  vscode.workspace.onDidChangeConfiguration(updateStatusBarText);
 }
 
 function getCurrentTheme(): string {
@@ -59,11 +53,10 @@ function randomTheme() {
 
   vscode.workspace
     .getConfiguration()
-    .update("workbench.colorTheme", randomTheme, true)
-    .then(() => {
-      currentTheme = randomTheme;
-      updateStatusBarText();
-    });
+    .update("workbench.colorTheme", randomTheme, true);
+
+  currentTheme = randomTheme;
+  updateStatusBarText();
 }
 
 function getAllThemes(): string[] {

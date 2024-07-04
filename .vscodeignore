@@ -10,4 +10,4 @@ vsc-extension-quickstart.md
 **/*.ts
 **/.vscode-test.*
 install.ps1
-images/screenshot-1.png
+images/statusbar-theme-display.png
