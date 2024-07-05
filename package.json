@@ -4,7 +4,7 @@
   "description": "Displays the current theme name in the status bar",
   "icon": "images/icon.png",
   "publisher": "bayramarslan",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "vscode": "^1.89.0"
   },
