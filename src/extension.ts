@@ -30,13 +30,18 @@ export function activate(context: vscode.ExtensionContext) {
 
   statusBarItem.show();
 
-  vscode.workspace.onDidChangeConfiguration(updateStatusBarText);
+  vscode.workspace.onDidChangeConfiguration(updateStatusBar);
 }
 
 function getCurrentTheme(): string {
   return vscode.workspace
     .getConfiguration("workbench")
     .get<string>("colorTheme")!;
+}
+
+function updateStatusBar() {
+  currentTheme = getCurrentTheme();
+  statusBarItem!.text = `${statusBarIcon} ${currentTheme}`;
 }
 
 function updateStatusBarText() {
