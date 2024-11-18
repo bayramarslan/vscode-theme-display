@@ -4,9 +4,9 @@
   "description": "Displays the current theme name in the status bar",
   "icon": "images/icon.png",
   "publisher": "bayramarslan",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "engines": {
-    "vscode": "^1.89.0"
+    "vscode": "^1.95.3"
   },
   "categories": [
     "Other"
@@ -26,7 +26,8 @@
     "theme-statusbar"
   ],
   "activationEvents": [
-    "onStartupFinished"
+    "onStartupFinished",
+    "onDidChangeWindowState"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -34,12 +35,6 @@
       {
         "command": "extension.randomTheme",
         "title": "Random Color Theme"
-      }
-    ],
-    "keybindings": [
-      {
-        "command": "extension.randomTheme",
-        "key": "ctrl+k n"
       }
     ]
   },
@@ -52,15 +47,15 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.89.0",
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
+    "@types/vscode": "^1.89.0",
     "@typescript-eslint/eslint-plugin": "^7.7.1",
     "@typescript-eslint/parser": "^7.7.1",
-    "eslint": "^8.57.0",
-    "typescript": "^5.4.5",
     "@vscode/test-cli": "^0.0.9",
-    "@vscode/test-electron": "^2.3.9"
+    "@vscode/test-electron": "^2.3.9",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.5"
   },
   "repository": {
     "type": "git",
