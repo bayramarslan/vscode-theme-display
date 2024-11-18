@@ -4,9 +4,9 @@
   "description": "Displays the current theme name in the status bar",
   "icon": "images/icon.png",
   "publisher": "bayramarslan",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
-    "vscode": "^1.93.1"
+    "vscode": "^1.95.3"
   },
   "categories": [
     "Other"
@@ -26,7 +26,8 @@
     "theme-statusbar"
   ],
   "activationEvents": [
-    "onStartupFinished"
+    "onStartupFinished",
+    "onDidChangeWindowState"
   ],
   "main": "./out/extension.js",
   "contributes": {

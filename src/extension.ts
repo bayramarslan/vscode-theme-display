@@ -2,7 +2,10 @@ import * as vscode from "vscode";
 
 let statusBarItem: vscode.StatusBarItem | undefined;
 let currentTheme: string = "";
+let systemTheme: string = "";
 const statusBarIcon: string = "$(flame)";
+let themeCheckerPanel: vscode.WebviewPanel | undefined;
+let defaultThemeName = "Default";
 
 export function activate(context: vscode.ExtensionContext) {
   statusBarItem = vscode.window.createStatusBarItem(
@@ -13,21 +16,19 @@ export function activate(context: vscode.ExtensionContext) {
   const tooltip = new vscode.MarkdownString(
     `Click to change theme [I'm Feeling Lucky](command:extension.randomTheme)`
   );
+
   tooltip.isTrusted = true;
-
-  currentTheme = getCurrentTheme();
-  updateStatusBarText();
-
   statusBarItem.tooltip = tooltip;
   statusBarItem.command = "workbench.action.selectTheme";
-  statusBarItem.show();
+
+  currentTheme = getCurrentTheme();
+
+  createThemeCheckerPanel(context);
 
   const randomThemeLink = vscode.commands.registerCommand(
     "extension.randomTheme",
     randomTheme
   );
-
-  context.subscriptions.push(randomThemeLink, statusBarItem);
 
   vscode.window.onDidChangeActiveColorTheme(
     updateStatusBar,
@@ -40,49 +41,50 @@ export function activate(context: vscode.ExtensionContext) {
     null,
     context.subscriptions
   );
+
+  context.subscriptions.push(randomThemeLink, statusBarItem);
+
+  updateStatusBar();
+  statusBarItem.show();
 }
 
 function getCurrentTheme(): string {
   const config = vscode.workspace.getConfiguration();
   const autoDetect = config.get<boolean>("window.autoDetectColorScheme");
-  const themeKind = vscode.window.activeColorTheme.kind;
 
   if (autoDetect) {
-    return getPreferredTheme(config, themeKind);
+    return getPreferredTheme(config, systemTheme);
   }
 
-  return config.get<string>("workbench.colorTheme") || "Default Dark+";
+  return config.get<string>("workbench.colorTheme") || defaultThemeName;
 }
 
 function getPreferredTheme(
   config: vscode.WorkspaceConfiguration,
-  themeKind: vscode.ColorThemeKind
+  systemTheme: string
 ): string {
-  if (themeKind === vscode.ColorThemeKind.Dark) {
+  if (systemTheme === "dark") {
     return (
-      config.get<string>("workbench.preferredDarkColorTheme") || "Default Dark+"
+      config.get<string>("workbench.preferredDarkColorTheme") ||
+      defaultThemeName
     );
-  } else if (themeKind === vscode.ColorThemeKind.Light) {
+  } else if (systemTheme === "light") {
     return (
       config.get<string>("workbench.preferredLightColorTheme") ||
-      "Default Light+"
+      defaultThemeName
     );
   }
-  return config.get<string>("workbench.colorTheme") || "Default Dark+";
+  return config.get<string>("workbench.colorTheme") || defaultThemeName;
 }
 
-function updateStatusBarText() {
+function updateStatusBar(): void {
+  currentTheme = getCurrentTheme();
   if (statusBarItem) {
     statusBarItem.text = `${statusBarIcon} ${currentTheme}`;
   }
 }
 
-function updateStatusBar() {
-  currentTheme = getCurrentTheme();
-  updateStatusBarText();
-}
-
-function randomTheme() {
+async function randomTheme() {
   const allThemes = getAllThemes();
   if (allThemes.length === 0) {
     vscode.window.showErrorMessage("No themes available.");
@@ -91,19 +93,25 @@ function randomTheme() {
 
   const config = vscode.workspace.getConfiguration();
   const autoDetect = config.get<boolean>("window.autoDetectColorScheme");
-  const themeKind = vscode.window.activeColorTheme.kind;
+
+  let selectedTheme: string;
 
   if (autoDetect) {
+    const themeKind = vscode.window.activeColorTheme.kind;
     const filteredThemes = filterThemesByKind(allThemes, themeKind);
-    const selectedTheme = getRandomElement(
+    selectedTheme = getRandomElement(
       filteredThemes.length > 0 ? filteredThemes : allThemes
     );
 
     try {
       if (themeKind === vscode.ColorThemeKind.Dark) {
-        config.update("workbench.preferredDarkColorTheme", selectedTheme, true);
+        await config.update(
+          "workbench.preferredDarkColorTheme",
+          selectedTheme,
+          true
+        );
       } else if (themeKind === vscode.ColorThemeKind.Light) {
-        config.update(
+        await config.update(
           "workbench.preferredLightColorTheme",
           selectedTheme,
           true
@@ -112,20 +120,17 @@ function randomTheme() {
     } catch (error) {
       vscode.window.showErrorMessage(`Error updating theme: ${error}`);
     }
-
-    currentTheme = selectedTheme;
   } else {
-    const randomTheme = getRandomElement(allThemes);
+    selectedTheme = getRandomElement(allThemes);
     try {
-      config.update("workbench.colorTheme", randomTheme, true).then(() => {
-        currentTheme = randomTheme;
-      });
+      await config.update("workbench.colorTheme", selectedTheme, true);
     } catch (error) {
       vscode.window.showErrorMessage(`Error updating theme: ${error}`);
     }
   }
 
-  updateStatusBarText();
+  currentTheme = selectedTheme;
+  updateStatusBar();
 }
 
 function getAllThemes(): string[] {
@@ -158,6 +163,60 @@ function filterThemesByKind(
 
 function getRandomElement<T>(array: T[]): T {
   return array[Math.floor(Math.random() * array.length)];
+}
+
+function createThemeCheckerPanel(context: vscode.ExtensionContext) {
+  const config = vscode.workspace.getConfiguration();
+  const autoDetect = config.get<boolean>("window.autoDetectColorScheme");
+
+  if (!autoDetect) {
+    if (themeCheckerPanel) {
+      themeCheckerPanel.dispose();
+      themeCheckerPanel = undefined;
+    }
+    return;
+  }
+
+  if (themeCheckerPanel) {
+    return;
+  }
+
+  themeCheckerPanel = vscode.window.createWebviewPanel(
+    "themeChecker",
+    "Theme Checker",
+    vscode.ViewColumn.Active,
+    { enableScripts: true, retainContextWhenHidden: true }
+  );
+
+  themeCheckerPanel.webview.html = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <body>
+      <script>
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const vscode = acquireVsCodeApi();
+        vscode.postMessage({ command: 'themeCheck', isDark });
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+          vscode.postMessage({ command: 'themeCheck', isDark: event.matches });
+        });
+      </script>
+    </body>
+    </html>
+  `;
+
+  themeCheckerPanel.webview.onDidReceiveMessage(
+    (message) => {
+      if (message.command === "themeCheck") {
+        systemTheme = message.isDark ? "dark" : "light";
+        themeCheckerPanel?.dispose();
+        themeCheckerPanel = undefined;
+        updateStatusBar();
+      }
+    },
+    undefined,
+    context.subscriptions
+  );
 }
 
 export function deactivate() {
